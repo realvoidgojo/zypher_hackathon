@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pydantic
+pandas
+prophet
+requests
+python-dotenv
+openai
+gunicorn
