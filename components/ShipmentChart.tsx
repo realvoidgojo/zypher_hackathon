@@ -69,7 +69,7 @@ export default function ShipmentChart({ data: initialData }: { data?: { name: st
       {/* 🔥 THE FIX: Strict style height injected into Recharts container to stop the "width -1" error */}
       <div style={{ width: '100%', height: '350px' }} className="relative z-10">
         <ResponsiveContainer width="100%" height="100%">
-          <PieChart>
+          <PieChart key={`piechart-${data.length}`}>
             <Pie data={data} innerRadius={80} outerRadius={110} paddingAngle={8} dataKey="value" stroke="none">
               {data.map((entry: any, index: number) => (
                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} style={{ filter: `drop-shadow(0px 0px 12px ${COLORS[index % COLORS.length]}60)` }} />
