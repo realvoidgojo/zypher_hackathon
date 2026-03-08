@@ -199,7 +199,7 @@ export default function ShipmentManager() {
   }
 
   return (
-    <div className="bg-[#111827] shadow-sm rounded-[3rem] p-10 border border-[#1F2937] text-slate-200 mt-10 relative overflow-hidden">
+    <div className="bg-[#111827] shadow-sm rounded-3xl md:rounded-[3rem] p-6 text-slate-200 mt-6 md:mt-10 relative overflow-hidden">
       <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-10 relative z-10">
         <div>
           <h2 className="text-xl font-medium text-[#F9FAFB]">Shipment Control</h2>
@@ -211,35 +211,35 @@ export default function ShipmentManager() {
       </div>
 
       {showForm && (
-        <div className="bg-[#111827] rounded-3xl p-8 mb-12 border border-[#1F2937] animate-fade-in-up relative z-10 shadow-sm">
-          <div className="flex bg-[#111827] p-1 rounded-xl border border-[#1F2937] mb-8 max-w-md mx-auto">
-            <button onClick={() => setDispatchType('network')} className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all flex items-center justify-center gap-2 ${dispatchType === 'network' ? 'bg-[#3B82F6] text-white shadow-sm border border-[#3B82F6]' : 'text-[#9CA3AF] hover:text-[#F9FAFB]'}`}>{Icons.Network} Network Partner</button>
-            <button onClick={() => setDispatchType('external')} className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all flex items-center justify-center gap-2 ${dispatchType === 'external' ? 'bg-[#3B82F6] text-white shadow-sm border border-[#3B82F6]' : 'text-[#9CA3AF] hover:text-[#F9FAFB]'}`}>{Icons.External} 3rd Party</button>
+        <div className="bg-[#111827] rounded-3xl p-5 md:p-8 mb-8 md:mb-12 border border-[#1F2937] animate-fade-in-up relative z-10 shadow-sm">
+          <div className="flex bg-[#111827] p-1 rounded-xl border border-[#1F2937] mb-6 md:mb-8 max-w-md mx-auto">
+            <button onClick={() => setDispatchType('network')} className={`flex-1 py-2 text-xs md:text-sm font-medium rounded-lg transition-all flex items-center justify-center gap-1.5 md:gap-2 ${dispatchType === 'network' ? 'bg-[#3B82F6] text-white shadow-sm border border-[#3B82F6]' : 'text-[#9CA3AF] hover:text-[#F9FAFB]'}`}>{Icons.Network} Network Partner</button>
+            <button onClick={() => setDispatchType('external')} className={`flex-1 py-2 text-xs md:text-sm font-medium rounded-lg transition-all flex items-center justify-center gap-1.5 md:gap-2 ${dispatchType === 'external' ? 'bg-[#3B82F6] text-white shadow-sm border border-[#3B82F6]' : 'text-[#9CA3AF] hover:text-[#F9FAFB]'}`}>{Icons.External} 3rd Party</button>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div className="space-y-5">
-              <div className="grid grid-cols-3 gap-4">
-                <div className="col-span-2 space-y-1.5">
-                  <label className="text-xs font-semibold text-[#9CA3AF] ml-1">Product Source</label>
-                  <select value={selectedInvId} onChange={(e) => setSelectedInvId(e.target.value)} className="w-full p-3 bg-[#111827] border border-[#1F2937] rounded-xl text-white outline-none focus:border-[#3B82F6] transition-all text-sm font-medium appearance-none">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="sm:col-span-2 space-y-1.5">
+                  <label className="text-[10px] md:text-xs font-semibold text-[#9CA3AF] ml-1">Product Source</label>
+                  <select value={selectedInvId} onChange={(e) => setSelectedInvId(e.target.value)} className="w-full p-2.5 md:p-3 bg-[#111827] border border-[#1F2937] rounded-xl text-white outline-none focus:border-[#3B82F6] transition-all text-xs md:text-sm font-medium appearance-none">
                     <option value="">-- Select Local Product --</option>
                     {myInventory.map(i => <option key={i.id} value={i.id}>{i.products?.name} (Qty: {i.stock_quantity})</option>)}
                   </select>
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-[#9CA3AF] ml-1">Quantity</label>
-                  <input type="number" min="1" value={dispatchQty} onChange={(e) => setDispatchQty(parseInt(e.target.value) || 1)} className="w-full p-3 bg-[#111827] border border-[#1F2937] rounded-xl text-white focus:border-[#3B82F6] outline-none text-sm font-medium" />
+                  <label className="text-[10px] md:text-xs font-semibold text-[#9CA3AF] ml-1">Quantity</label>
+                  <input type="number" min="1" value={dispatchQty} onChange={(e) => setDispatchQty(parseInt(e.target.value) || 1)} className="w-full p-2.5 md:p-3 bg-[#111827] border border-[#1F2937] rounded-xl text-white focus:border-[#3B82F6] outline-none text-xs md:text-sm font-medium" />
                 </div>
               </div>
 
               {dispatchType === 'network' ? (
-                <div className="space-y-4 p-5 rounded-xl bg-[#111827] border border-[#1F2937]">
-                  <div className="space-y-1.5"><label className="text-xs font-semibold text-[#3B82F6] ml-1">Target Supplier</label><select value={selectedNetSupplier} onChange={(e) => setSelectedNetSupplier(e.target.value)} className="w-full p-3 bg-[#1F2937] border border-[#374151] rounded-lg text-white outline-none focus:border-[#3B82F6] text-sm font-medium appearance-none"><option value="">-- Select Partner --</option>{networkSuppliers.map(s => <option key={s.owner_id} value={s.owner_id}>{s.name}</option>)}</select></div>
-                  <div className="space-y-1.5"><label className="text-xs font-semibold text-[#3B82F6] ml-1">Target Warehouse</label><select value={selectedTargetWarehouse} onChange={(e) => setSelectedTargetWarehouse(e.target.value)} disabled={!selectedNetSupplier} className="w-full p-3 bg-[#1F2937] border border-[#374151] rounded-lg text-white outline-none focus:border-[#3B82F6] text-sm font-medium appearance-none disabled:opacity-50"><option value="">-- Select Warehouse --</option>{supplierWarehouses.map(w => <option key={w.id} value={w.id}>{w.name}</option>)}</select></div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 md:p-5 rounded-xl bg-[#111827] border border-[#1F2937]">
+                  <div className="space-y-1.5"><label className="text-[10px] md:text-xs font-semibold text-[#3B82F6] ml-1">Target Supplier</label><select value={selectedNetSupplier} onChange={(e) => setSelectedNetSupplier(e.target.value)} className="w-full p-2.5 md:p-3 bg-[#1F2937] border border-[#374151] rounded-lg text-white outline-none focus:border-[#3B82F6] text-xs md:text-sm font-medium appearance-none"><option value="">-- Select Partner --</option>{networkSuppliers.map(s => <option key={s.owner_id} value={s.owner_id}>{s.name}</option>)}</select></div>
+                  <div className="space-y-1.5"><label className="text-[10px] md:text-xs font-semibold text-[#3B82F6] ml-1">Target Warehouse</label><select value={selectedTargetWarehouse} onChange={(e) => setSelectedTargetWarehouse(e.target.value)} disabled={!selectedNetSupplier} className="w-full p-2.5 md:p-3 bg-[#1F2937] border border-[#374151] rounded-lg text-white outline-none focus:border-[#3B82F6] text-xs md:text-sm font-medium appearance-none disabled:opacity-50"><option value="">-- Select Warehouse --</option>{supplierWarehouses.map(w => <option key={w.id} value={w.id}>{w.name}</option>)}</select></div>
                 </div>
               ) : (
-                <div className="space-y-1.5 p-5 rounded-xl bg-[#111827] border border-[#1F2937]"><label className="text-xs font-semibold text-[#8B5CF6] ml-1">External Receiver</label><input type="text" placeholder="e.g. Apex Industrial Solutions" value={buyerName} onChange={(e) => setBuyerName(e.target.value)} className="w-full p-3 bg-[#1F2937] border border-[#374151] rounded-lg text-white focus:border-[#8B5CF6] outline-none text-sm font-medium placeholder-slate-400" /></div>
+                <div className="space-y-1.5 p-4 md:p-5 rounded-xl bg-[#111827] border border-[#1F2937]"><label className="text-[10px] md:text-xs font-semibold text-[#8B5CF6] ml-1">External Receiver</label><input type="text" placeholder="e.g. Apex Industrial Solutions" value={buyerName} onChange={(e) => setBuyerName(e.target.value)} className="w-full p-2.5 md:p-3 bg-[#1F2937] border border-[#374151] rounded-lg text-white focus:border-[#8B5CF6] outline-none text-xs md:text-sm font-medium placeholder-slate-400" /></div>
               )}
 
               <div className="p-4 rounded-xl border border-[#1F2937] bg-[#111827] relative min-h-[100px] flex items-center justify-center">
@@ -293,8 +293,8 @@ export default function ShipmentManager() {
         </div>
       )}
 
-      {/* TABLE DATA */}
-      <div className="w-full overflow-x-auto custom-scrollbar relative z-10">
+      {/* TABLE DATA - Desktop */}
+      <div className="hidden lg:block w-full overflow-x-auto custom-scrollbar relative z-10">
         <table className="w-full text-left border-separate border-spacing-y-3 min-w-[800px]">
           <thead><tr className="text-xs font-semibold text-[#9CA3AF] border-b border-[#1F2937]"><th className="w-[45%] px-6 pb-2">Shipment ID</th><th className="w-[20%] text-center pb-2">Product</th><th className="w-[20%] text-center pb-2">Status</th><th className="w-[15%] text-right px-6 pb-2">Details</th></tr></thead>
           <tbody>
@@ -361,6 +361,116 @@ export default function ShipmentManager() {
             })}
           </tbody>
         </table>
+      </div>
+
+      {/* CARD VIEW - Mobile */}
+      <div className="lg:hidden w-full flex flex-col gap-4 relative z-10 mt-6 pt-4 border-t border-[#1F2937]">
+        {shipments.map((s) => {
+          const details = getDriverAndTransitDetails(s);
+          const isMoving = s.status === 'In Transit';
+          const isDelivered = s.status === 'Delivered';
+          const userArrivalDate = new Date(`${arrivalDate}T${arrivalTime}`);
+          const estimatedDate = new Date(s.estimated_delivery_time);
+          const isLate = userArrivalDate > estimatedDate;
+
+          return (
+            <div key={s.id} className={`bg-[#161b2a] border border-[#1F2937] rounded-3xl p-5 flex flex-col gap-4 shadow-sm transition-all duration-300 ${isDelivered ? 'opacity-60' : ''}`}>
+              <div className="flex justify-between items-start gap-4">
+                <div className="min-w-0">
+                  <p className="font-medium text-[#F9FAFB] text-base truncate pr-2">{s.name}</p>
+                  <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                    <span className="text-xs font-medium text-[#9CA3AF]">ID: {s.id.split('-')[0]}</span>
+                    <span className="w-1 h-1 bg-[#4B5563] rounded-full shrink-0"></span>
+                    <span className="text-xs font-medium text-[#8B5CF6] truncate max-w-[120px]">{s.buyer_name}</span>
+                  </div>
+                </div>
+                <div className="shrink-0">
+                  {isMoving ? (
+                    <div className="inline-flex items-center gap-1.5 bg-[#3B82F6]/10 text-[#3B82F6] px-2.5 py-1.5 rounded-lg border border-[#3B82F6]/20">
+                      <span className="w-1.5 h-1.5 bg-[#3B82F6] rounded-full animate-pulse"></span>
+                      <span className="text-[10px] font-semibold uppercase tracking-wider">In Transit</span>
+                    </div>
+                  ) : (
+                    <div className="inline-flex items-center gap-1.5 bg-[#10B981]/10 text-[#10B981] px-2.5 py-1.5 rounded-lg border border-[#10B981]/20">
+                      <span className="text-[10px] font-semibold uppercase tracking-wider">Delivered</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex justify-between items-center bg-[#0B0F14] p-3 rounded-xl border border-[#1F2937]">
+                <div>
+                  <p className="text-[10px] font-semibold text-[#9CA3AF] uppercase">Product Qty</p>
+                  <p className="font-medium text-[#D1D5DB] text-sm mt-0.5">{s.quantity} <span className="text-[10px] text-[#9CA3AF]">units</span></p>
+                </div>
+                <button onClick={() => setExpandedId(expandedId === s.id ? null : s.id)} className="bg-[#1F2937] text-[#D1D5DB] w-9 h-9 rounded-xl flex items-center justify-center hover:bg-[#374151] hover:text-white transition-all border border-[#374151] shadow-sm">
+                  {expandedId === s.id ? Icons.Close : Icons.RouteInfo}
+                </button>
+              </div>
+
+              {expandedId === s.id && (
+                <div className="animate-fade-in border-t border-[#1F2937] pt-5 mt-1">
+                  <div className="flex flex-col gap-6">
+                    <div className="space-y-4">
+                      <p className="text-xs font-semibold text-[#9CA3AF]">Driver Details</p>
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-xl bg-[#1F2937] flex items-center justify-center text-[#9CA3AF] border border-[#374151] shrink-0">{Icons.Pilot}</div>
+                        <div className="min-w-0">
+                          <p className="font-medium text-sm text-[#F9FAFB] truncate">{details.driverName}</p>
+                          <p className="text-[11px] text-[#8B5CF6] font-medium mt-1 truncate">{details.truckNumber}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <p className="text-xs font-semibold text-[#9CA3AF]">Tracking Log</p>
+                      <div className="space-y-3">
+                        {details.checkpoints.map((cp, i) => (
+                          <div key={i} className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                              <div className={`w-2 h-2 rounded-full ${cp.completed ? 'bg-[#3B82F6]' : 'bg-[#4B5563]'}`}></div>
+                              <span className="text-xs font-medium text-[#D1D5DB]">{cp.status}</span>
+                            </div>
+                            <span className="text-[10px] font-medium px-2 py-0.5 rounded bg-[#1F2937] text-[#9CA3AF]">{cp.time}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {isMoving && (
+                      <div className="pt-6 border-t border-[#1F2937] flex flex-col gap-5">
+                        <div className="space-y-3">
+                          <p className="text-xs font-semibold text-[#3B82F6]">Confirm Delivery</p>
+                          <div className="flex gap-3">
+                            <div className="flex-1 space-y-1.5">
+                              <label className="text-[10px] text-[#9CA3AF] font-medium ml-1">Arrival Date</label>
+                              <input type="date" value={arrivalDate} onChange={(e) => setArrivalDate(e.target.value)} className="w-full p-2.5 bg-[#1F2937] border border-[#374151] rounded-xl text-white text-xs outline-none focus:border-[#3B82F6]" />
+                            </div>
+                            <div className="flex-1 space-y-1.5">
+                              <label className="text-[10px] text-[#9CA3AF] font-medium ml-1">Arrival Time</label>
+                              <input type="time" value={arrivalTime} onChange={(e) => setArrivalTime(e.target.value)} className="w-full p-2.5 bg-[#1F2937] border border-[#374151] rounded-xl text-white text-xs outline-none focus:border-[#3B82F6]" />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex flex-col gap-4">
+                          <div className="flex justify-between items-center">
+                            <p className="text-xs text-[#9CA3AF] font-medium">Delivery Status</p>
+                            <span className={`text-[10px] font-semibold px-3 py-1.5 rounded-full border ${isLate ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-[#10B981]/10 text-[#10B981] border-[#10B981]/20'}`}>
+                              {isLate ? 'Delayed' : 'Received On Time'}
+                            </span>
+                          </div>
+                          <button onClick={() => handleConfirmArrival(s.id)} disabled={processingId === s.id} className="w-full bg-[#3B82F6] hover:bg-[#2563EB] text-white px-4 py-3 rounded-xl text-xs font-semibold transition-all shadow-sm disabled:opacity-50 active:scale-95 flex items-center justify-center gap-2">
+                            {processingId === s.id ? "Saving..." : (<>{Icons.Check} Confirm Delivery</>)}
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          )
+        })}
       </div>
     </div>
   )

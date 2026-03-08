@@ -179,16 +179,16 @@ export default function HeatmapPage() {
 
       {/* The overflow-x-auto is the magic class that prevents mobile squishing */}
       <div className="bg-[#111827] p-4 md:p-8 lg:p-10 rounded-3xl border border-[#1F2937] shadow-sm w-full">
-        <div className="overflow-x-auto custom-scrollbar w-full pt-10 pb-10 relative z-20">
-          <div className="min-w-[800px] px-4">
+        <div className="overflow-x-auto custom-scrollbar w-full pt-6 md:pt-10 pb-6 md:pb-10 relative z-20">
+          <div className="min-w-max md:min-w-[800px] px-2 md:px-4">
             <div className="flex mb-4">
-              <div className="w-32 shrink-0"></div>
+              <div className="w-24 md:w-32 shrink-0"></div>
               {productsList.map((p) => (
                 <div
                   key={p}
-                  className="flex-1 text-center text-xs font-semibold text-[#9CA3AF] px-2 truncate"
+                  className="flex-1 text-center text-[10px] md:text-xs font-semibold text-[#9CA3AF] px-1 md:px-2 min-w-[60px] md:min-w-0"
                 >
-                  {p}
+                  <div className="truncate w-full">{p}</div>
                 </div>
               ))}
             </div>
@@ -199,7 +199,7 @@ export default function HeatmapPage() {
                   key={row.region}
                   className="flex items-center gap-4 relative group/row border-transparent"
                 >
-                  <div className="w-32 shrink-0 text-sm font-medium text-[#D1D5DB] text-right pr-4 border-r border-[#1F2937] truncate">
+                  <div className="w-24 md:w-32 shrink-0 text-xs md:text-sm font-medium text-[#D1D5DB] text-right pr-2 md:pr-4 border-r border-[#1F2937] truncate">
                     {row.region}
                   </div>
                   <div className="flex flex-1 gap-2">
@@ -208,7 +208,7 @@ export default function HeatmapPage() {
                         return (
                           <div
                             key={i}
-                            className="flex-1 h-10 md:h-14 rounded-xl bg-[#111827] border border-[#1F2937] opacity-30"
+                            className="flex-1 min-w-[60px] md:min-w-0 h-10 md:h-14 rounded-xl bg-[#111827] border border-[#1F2937] opacity-30"
                           ></div>
                         );
                       }
@@ -225,7 +225,7 @@ export default function HeatmapPage() {
                       return (
                         <div
                           key={i}
-                          className={`flex-1 h-10 md:h-14 rounded-xl border flex items-center justify-center transition-transform duration-300 hover:scale-105 cursor-crosshair group ${bgColor}`}
+                          className={`flex-1 min-w-[60px] md:min-w-0 h-10 md:h-14 rounded-xl border flex items-center justify-center transition-transform duration-300 hover:scale-105 cursor-crosshair group ${bgColor}`}
                           onMouseEnter={(e) => {
                             const rect = e.currentTarget.getBoundingClientRect();
                             setHoveredCell({

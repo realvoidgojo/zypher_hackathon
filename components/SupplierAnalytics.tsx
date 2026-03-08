@@ -58,7 +58,7 @@ export default function SupplierAnalytics() {
 
         {/* GRID-BASED TABLE */}
         <div className="xl:col-span-7 space-y-3">
-          <div className="grid grid-cols-12 px-6 pb-2 text-xs font-semibold text-[#9CA3AF] border-b border-[#1F2937]">
+          <div className="hidden md:grid grid-cols-12 px-6 pb-2 text-xs font-semibold text-[#9CA3AF] border-b border-[#1F2937]">
             <div className="col-span-6">Supplier</div>
             <div className="col-span-3 text-center">Volume</div>
             <div className="col-span-3 text-right">Rating</div>
@@ -66,23 +66,25 @@ export default function SupplierAnalytics() {
 
           <div className="space-y-3">
             {processedData.map((s) => (
-              <div key={s.id} className="grid grid-cols-12 items-center bg-[#111827] p-5 rounded-3xl border border-[#1F2937] hover:border-[#374151] transition-colors duration-300 shadow-sm">
-                <div className="col-span-6 flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-[#1F2937] flex items-center justify-center text-[#9CA3AF] font-medium text-sm border border-[#374151]">
+              <div key={s.id} className="flex flex-col md:grid md:grid-cols-12 gap-4 md:gap-0 items-start md:items-center bg-[#111827] p-5 rounded-3xl border border-[#1F2937] hover:border-[#374151] transition-colors duration-300 shadow-sm">
+                <div className="md:col-span-6 flex items-center gap-4 w-full">
+                  <div className="w-10 h-10 rounded-full bg-[#1F2937] shrink-0 flex items-center justify-center text-[#9CA3AF] font-medium text-sm border border-[#374151]">
                     {s.name.charAt(0)}
                   </div>
-                  <div className="truncate">
-                    <p className="font-medium text-[#F9FAFB] text-sm truncate">{s.name}</p>
+                  <div className="truncate min-w-0">
+                    <p className="font-medium text-[#F9FAFB] text-sm truncate pr-2">{s.name}</p>
                     <p className="text-xs text-[#9CA3AF] mt-1">{s.isNew ? 'New Supplier' : 'Established'}</p>
                   </div>
                 </div>
-                <div className="col-span-3 text-center">
-                  <p className="font-medium text-[#F9FAFB] text-sm">{s.total_orders}</p>
-                  <p className="text-xs text-rose-400 mt-1">{s.delayed_orders} Delayed</p>
-                </div>
-                <div className="col-span-3 flex justify-end">
-                  <div className={`px-3 py-1.5 rounded-lg text-xs font-medium border ${s.fairRating < 70 ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'}`}>
-                    {s.fairRating}%
+                <div className="w-full flex justify-between md:contents">
+                  <div className="md:col-span-3 md:text-center text-left shrink-0">
+                    <p className="font-medium text-[#F9FAFB] text-sm">{s.total_orders} <span className="md:hidden text-[#9CA3AF] font-normal text-[11px]">Orders</span></p>
+                    <p className="text-xs text-rose-400 mt-1">{s.delayed_orders} Delayed</p>
+                  </div>
+                  <div className="md:col-span-3 flex justify-end shrink-0">
+                    <div className={`px-3 py-1.5 rounded-lg text-xs font-medium border ${s.fairRating < 70 ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'}`}>
+                      {s.fairRating}% <span className="md:hidden ml-1">Rating</span>
+                    </div>
                   </div>
                 </div>
               </div>

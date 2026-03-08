@@ -59,11 +59,11 @@ export default function DashboardCards({
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
+    <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
       {cards.map((m, i) => (
         <div
           key={m.title}
-          className="bg-[#111827] border border-[#1F2937] rounded-xl p-5 hover:border-[#374151] hover:-translate-y-[2px] transition-all duration-150 flex flex-col justify-between h-[120px] shadow-sm"
+          className="bg-[#111827] border border-[#1F2937] rounded-xl p-5 hover:border-[#374151] hover:-translate-y-[2px] transition-all duration-150 flex flex-col justify-between h-auto min-h-[120px] shadow-sm"
         >
           <div className="flex justify-between items-center mb-2">
             <h3 className="text-[#9CA3AF] text-[14px] uppercase tracking-[0.05em] font-medium">
@@ -74,7 +74,7 @@ export default function DashboardCards({
             </div>
           </div>
           <div className="flex items-baseline gap-3">
-            <span className="text-[#F9FAFB] text-[32px] font-bold leading-none">
+            <span className="text-[#F9FAFB] text-3xl font-bold leading-none">
               {m.value}
             </span>
             {m.trendDir && m.trendDir !== 'neutral' && (

@@ -49,7 +49,7 @@ export default function AlertsPanel({ shipments, runRealTimeAI }: { shipments: a
   }
 
   return (
-    <div className="bg-[#111827] p-6 lg:p-8 rounded-xl border border-[#1F2937] h-[500px] flex flex-col shadow-sm">
+    <div className="bg-[#111827] p-6 lg:p-8 rounded-xl border border-[#1F2937] h-auto min-h-[300px] lg:h-[500px] flex flex-col shadow-sm">
       <div className="flex justify-between items-center mb-4 border-b border-[#1F2937] pb-4">
         <div className="flex items-center gap-2">
           <Radar size={20} className="text-[#9CA3AF]" />

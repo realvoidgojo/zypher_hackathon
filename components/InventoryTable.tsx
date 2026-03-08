@@ -156,7 +156,7 @@ export default function InventoryTable() {
               {isNewWarehouse ? (
                 <div className="space-y-4 border-l-2 border-cyan-500/50 pl-4 py-2">
                   <input placeholder="Warehouse Name" value={whName} onChange={(e) => setWhName(e.target.value)} className="w-full p-4 bg-[#111827] border border-[#1F2937] rounded-xl text-white placeholder-slate-500 focus:border-[#3B82F6] outline-none transition-all text-sm font-medium" />
-                  <div className="rounded-xl overflow-hidden border border-white/5">
+                  <div className="rounded-xl overflow-hidden border border-white/5 relative h-[200px]">
                     <MapPicker position={position} setPosition={setPosition} />
                   </div>
                 </div>
@@ -185,8 +185,8 @@ export default function InventoryTable() {
         </div>
       )}
 
-      {/* TABLE VIEW - DARK MODE */}
-      <div className="w-full overflow-x-auto relative z-10">
+      {/* TABLE VIEW - Desktop */}
+      <div className="hidden lg:block w-full overflow-x-auto relative z-10">
         <table className="w-full table-fixed text-left border-separate border-spacing-y-3 min-w-[800px]">
           <thead>
             <tr className="text-xs font-semibold text-[#9CA3AF] border-b border-[#1F2937]">
@@ -251,6 +251,56 @@ export default function InventoryTable() {
             })}
           </tbody>
         </table>
+      </div>
+
+      {/* CARD VIEW - Mobile */}
+      <div className="lg:hidden w-full flex flex-col gap-4 relative z-10 mt-6 pt-4 border-t border-[#1F2937]">
+        {inventory.map((item) => {
+          const isZero = item.stock_quantity === 0;
+          const isLow = !isZero && item.stock_quantity < item.reorder_level;
+          const amount = adjustAmount[item.id] !== undefined ? adjustAmount[item.id] : 1;
+
+          return (
+            <div key={item.id} className={`bg-[#161b2a] border border-white/5 hover:bg-[#1e2436] rounded-3xl p-5 flex flex-col gap-4 shadow-sm transition-colors duration-300 ${isZero ? 'opacity-50 grayscale-[0.5]' : ''}`}>
+              <div className="flex justify-between items-start gap-4">
+                <div className="min-w-0">
+                  <p className="font-medium text-[#F9FAFB] text-base truncate pr-2">{item.products?.name}</p>
+                  <p className="text-xs text-[#6B7280] mt-1 truncate">{item.warehouses?.name}</p>
+                </div>
+                <div className="text-right shrink-0">
+                  <span className={`text-2xl font-light ${isZero ? 'text-rose-500' : 'text-white'}`}>
+                    {item.stock_quantity}
+                  </span>
+                  <p className="text-[10px] text-[#9CA3AF] mt-0.5 uppercase tracking-wider font-semibold">In Stock</p>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between pt-4 border-t border-[#1F2937]">
+                <div className="flex items-center gap-1.5 bg-[#111827] rounded-xl p-1.5 border border-[#1F2937]">
+                  <button onClick={() => adjustStock(item.id, item.stock_quantity, false)} disabled={isZero} className="w-8 h-8 rounded-lg flex items-center justify-center bg-[#1F2937] text-white opacity-80 hover:opacity-100 font-bold disabled:opacity-30 transition-all shadow-sm">-</button>
+                  <input type="number" min="1" value={amount} onChange={(e) => handleAmountChange(item.id, e.target.value)} className="w-10 text-center font-bold bg-transparent focus:outline-none text-[#F9FAFB] text-sm" />
+                  <button onClick={() => adjustStock(item.id, item.stock_quantity, true)} className="w-8 h-8 rounded-lg flex items-center justify-center bg-[#1F2937] text-white opacity-80 hover:opacity-100 font-bold transition-all shadow-sm">+</button>
+                </div>
+
+                <div>
+                  {isZero ? (
+                    <button
+                      onClick={() => handleDeleteStock(item.id)}
+                      className="flex items-center gap-2 text-rose-500 hover:text-rose-400 bg-rose-500/10 hover:bg-rose-500/20 px-3 py-2 rounded-xl transition-all border border-rose-500/20 shadow-sm"
+                    >
+                      <span className="text-xs font-semibold">Purge</span>
+                      {Icons.Trash}
+                    </button>
+                  ) : isLow ? (
+                    <span className="bg-rose-500/10 text-rose-400 px-3 py-2 rounded-xl text-xs font-semibold border border-rose-500/20 shadow-sm">Critical</span>
+                  ) : (
+                    <span className="bg-[#1F2937] text-[#10B981] px-3 py-2 rounded-xl text-xs font-semibold border border-[#374151] shadow-sm">Optimal</span>
+                  )}
+                </div>
+              </div>
+            </div>
+          )
+        })}
       </div>
     </div>
   )

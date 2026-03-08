@@ -144,7 +144,7 @@ export default function ShipmentMap({ focusId = null }: ShipmentMapProps) {
     <div className={
       isFullscreen
         ? "fixed inset-0 z-9999 bg-[#05080f] p-4 flex flex-col"
-        : "w-full h-[500px] bg-[#111827] rounded-xl p-3 border border-[#1F2937] shadow-sm relative z-0"
+        : "w-full h-[280px] lg:h-[500px] bg-[#111827] rounded-xl p-3 border border-[#1F2937] shadow-sm relative z-0"
     }>
       <div className="absolute top-6 right-6 z-10000">
         <button

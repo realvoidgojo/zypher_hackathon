@@ -4,7 +4,7 @@ export default function ForecastPage() {
   return (
     <div className="space-y-8 animate-fade-in-up pb-20">
       {/* 🚀 HEADER SECTION - DARK MODE */}
-      <div className="bg-[#111827] p-8 lg:p-10 rounded-[2rem] border border-[#1F2937] shadow-sm relative overflow-hidden">
+      <div className="bg-[#111827] p-6 lg:p-10 rounded-[2rem] border border-[#1F2937] shadow-sm relative overflow-hidden">
         <div className="relative z-10">
           <div className="flex items-center gap-2 mb-3">
             <div className="w-2 h-2 bg-[#818CF8] rounded-full animate-ping"></div>

@@ -85,34 +85,34 @@ export default function ForecastChart() {
         <div className="xl:col-span-7 flex flex-col gap-6 lg:gap-8">
 
           {/* METRIC CARDS */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-[#111827] p-6 rounded-2xl border border-[#1F2937] shadow-sm">
-              <p className="text-[#9CA3AF] text-xs font-semibold uppercase tracking-wider">Inventory</p>
-              <p className="text-4xl font-light text-white mt-3">{insight?.stock}</p>
-              <p className="text-xs text-[#4B5563] mt-2 font-medium">Total units on hand</p>
+          <div className="grid grid-cols-3 gap-3 md:gap-4">
+            <div className="bg-[#111827] p-4 lg:p-6 rounded-2xl border border-[#1F2937] shadow-sm flex flex-col justify-center">
+              <p className="text-[#9CA3AF] text-[10px] md:text-xs font-semibold uppercase tracking-wider truncate">Inventory</p>
+              <p className="text-2xl md:text-4xl font-light text-white mt-2 md:mt-3">{insight?.stock}</p>
+              <p className="text-[10px] md:text-xs text-[#4B5563] mt-1 md:mt-2 font-medium hidden sm:block">Total units on hand</p>
             </div>
-            <div className="bg-[#111827] p-6 rounded-2xl border border-[#1F2937] shadow-sm">
-              <p className="text-[#9CA3AF] text-xs font-semibold uppercase tracking-wider">30-Day Demand</p>
-              <p className="text-4xl font-light text-indigo-400 mt-3">{insight?.monthlyDemand}</p>
-              <p className="text-xs text-[#4B5563] mt-2 font-medium">Forecasted units needed</p>
+            <div className="bg-[#111827] p-4 lg:p-6 rounded-2xl border border-[#1F2937] shadow-sm flex flex-col justify-center">
+              <p className="text-[#9CA3AF] text-[10px] md:text-xs font-semibold uppercase tracking-wider truncate">30-Day Demand</p>
+              <p className="text-2xl md:text-4xl font-light text-indigo-400 mt-2 md:mt-3">{insight?.monthlyDemand}</p>
+              <p className="text-[10px] md:text-xs text-[#4B5563] mt-1 md:mt-2 font-medium hidden sm:block">Forecasted units needed</p>
             </div>
-            <div className={`p-6 rounded-2xl border shadow-sm ${isCritical ? 'bg-rose-500/5 border-rose-500/20' : 'bg-[#111827] border-[#1F2937]'}`}>
-              <p className={`text-xs font-semibold uppercase tracking-wider ${isCritical ? 'text-rose-400' : 'text-[#9CA3AF]'}`}>Depletion In</p>
-              <p className={`text-4xl font-light mt-3 ${isCritical ? 'text-rose-500' : 'text-emerald-400'}`}>
-                {insight?.daysLeft} <span className="text-sm font-medium text-slate-500 ml-1">days</span>
+            <div className={`p-4 lg:p-6 rounded-2xl border shadow-sm flex flex-col justify-center ${isCritical ? 'bg-rose-500/5 border-rose-500/20' : 'bg-[#111827] border-[#1F2937]'}`}>
+              <p className={`text-[10px] md:text-xs font-semibold uppercase tracking-wider truncate ${isCritical ? 'text-rose-400' : 'text-[#9CA3AF]'}`}>Depletion In</p>
+              <p className={`text-2xl md:text-4xl font-light mt-2 md:mt-3 ${isCritical ? 'text-rose-500' : 'text-emerald-400'}`}>
+                {insight?.daysLeft} <span className="text-xs md:text-sm font-medium text-slate-500 ml-0.5 md:ml-1"><span className="hidden sm:inline">days</span><span className="sm:hidden">d</span></span>
               </p>
-              <p className={`text-xs mt-2 font-medium ${isCritical ? 'text-rose-500/60' : 'text-[#4B5563]'}`}>{isCritical ? 'Reorder urgently' : 'Sufficient stock level'}</p>
+              <p className={`text-[10px] md:text-xs mt-1 md:mt-2 font-medium hidden sm:block ${isCritical ? 'text-rose-500/60' : 'text-[#4B5563]'}`}>{isCritical ? 'Reorder urgently' : 'Sufficient stock level'}</p>
             </div>
           </div>
 
           {/* DEMAND CHART */}
-          <div className="bg-[#111827] p-8 rounded-2xl border border-[#1F2937] shadow-sm">
+          <div className="bg-[#111827] p-5 lg:p-8 rounded-2xl border border-[#1F2937] shadow-sm">
             <div className="flex items-center gap-3 mb-8">
               {Icons.Sparkle}
               <h3 className="font-semibold text-[#F9FAFB] text-base">Demand Forecast</h3>
               <span className="ml-auto text-[10px] text-[#9CA3AF] font-bold tracking-widest uppercase">30-Day Projection</span>
             </div>
-            <div className="h-[300px] w-full">
+            <div className="h-[250px] sm:h-[300px] w-full mt-4">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={data} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
                   <defs>
@@ -132,7 +132,7 @@ export default function ForecastChart() {
           </div>
 
           {/* AI ANALYSIS */}
-          <div className="bg-[#111827] rounded-2xl p-8 border border-[#1F2937]">
+          <div className="bg-[#111827] rounded-2xl p-5 lg:p-8 border border-[#1F2937]">
             <h4 className="text-xs font-semibold text-[#9CA3AF] uppercase tracking-wider mb-6 flex items-center gap-2">
               {Icons.Brain} AI Analysis
             </h4>
@@ -156,7 +156,7 @@ export default function ForecastChart() {
         </div>
 
         {/* RIGHT COLUMN — sticky chat panel */}
-        <div className="xl:col-span-5 xl:sticky xl:top-8" style={{ height: 'calc(100vh - 4rem)' }}>
+        <div className="xl:col-span-5 xl:sticky xl:top-8 h-[480px] xl:h-[calc(100vh-4rem)]">
           <div className="bg-[#111827] rounded-2xl border border-[#1F2937] shadow-sm flex flex-col h-full overflow-hidden">
 
             {/* CHAT HEADER */}
