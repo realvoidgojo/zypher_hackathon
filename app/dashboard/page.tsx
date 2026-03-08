@@ -82,14 +82,10 @@ export default function DashboardPage() {
 
       setActiveShipments(shipments || []);
 
-      if (outgoing.length === 0 && incoming.length === 0) {
-        setChartData([{ name: "Idle Network", value: 1 }]);
-      } else {
-        setChartData([
-          { name: "Active Dispatches", value: outgoing.length },
-          { name: "Incoming Supply", value: incoming.length },
-        ]);
-      }
+      setChartData([
+        { name: "Outgoing Supply", value: outgoing.length },
+        { name: "Incoming Supply", value: incoming.length },
+      ]);
     } catch (err) {
       console.error(err);
     } finally {
@@ -127,10 +123,7 @@ export default function DashboardPage() {
             </div>
             <div className="space-y-4">
               {[1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  className="h-24 bg-[#1F2937] rounded-lg"
-                ></div>
+                <div key={i} className="h-24 bg-[#1F2937] rounded-lg"></div>
               ))}
             </div>
           </div>
@@ -146,13 +139,9 @@ export default function DashboardPage() {
         <div>
           <div className="flex items-center gap-2 mb-2">
             <div className="w-2 h-2 rounded-full bg-[#10B981]"></div>
-            <p className="text-[#9CA3AF] font-medium text-xs">
-              System Online
-            </p>
+            <p className="text-[#9CA3AF] font-medium text-xs">System Online</p>
           </div>
-          <h1 className="text-2xl font-semibold text-[#F9FAFB]">
-            Overview
-          </h1>
+          <h1 className="text-2xl font-semibold text-[#F9FAFB]">Overview</h1>
           <p className="text-[#9CA3AF] text-sm mt-1">
             Supply chain and logistics analytics.
           </p>

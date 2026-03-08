@@ -61,8 +61,8 @@ export default function HeatmapPage() {
     if (
       !error &&
       invData &&
-      uniqueWarehouses.length >= 2 &&
-      uniqueProducts.length >= 2
+      uniqueWarehouses.length >= 1 &&
+      uniqueProducts.length >= 1
     ) {
       const builtMatrix: MatrixRow[] = uniqueWarehouses.map((warehouseName) => {
         const rowData = uniqueProducts.map((productName) => {
@@ -73,26 +73,21 @@ export default function HeatmapPage() {
           );
           let intensity = 0;
           let qty: number | string = "N/A";
-          const mockPriceValue =
-            productName.length * 125 + productName.charCodeAt(0) * 15;
-          const formattedPrice = "$" + mockPriceValue.toLocaleString();
           if (record) {
             const stockQty = record.stock_quantity;
             qty = stockQty;
             const reorder = record.reorder_level || 10;
 
-            if (stockQty === 0) intensity = 95 + Math.floor(Math.random() * 5);
-            else if (stockQty < reorder)
-              intensity = 60 + Math.floor(Math.random() * 15);
-            else if (stockQty < reorder * 2)
-              intensity = 30 + Math.floor(Math.random() * 10);
-            else intensity = Math.floor(Math.random() * 20);
+            if (stockQty === 0) intensity = 95;
+            else if (stockQty < reorder) intensity = 70;
+            else if (stockQty < reorder * 2) intensity = 35;
+            else intensity = 10;
           }
           return {
             product: productName,
             intensity,
             qty,
-            price: formattedPrice,
+            price: "",
           };
         });
         return { region: warehouseName, data: rowData };
@@ -100,50 +95,9 @@ export default function HeatmapPage() {
       setProductsList(uniqueProducts);
       setMatrix(builtMatrix);
     } else {
-      const dummyRegions = [
-        "Chennai Core",
-        "Bangalore Node",
-        "Hyderabad Port",
-        "Mumbai Terminal",
-        "Pune Hub",
-      ];
-      const dummyProducts = [
-        "Battery Arrays",
-        "Solar Panels",
-        "Processors",
-        "Cooling Rigs",
-        "Copper Spools",
-        "Fiber Optics",
-      ];
-
-      const dummyMatrix: MatrixRow[] = dummyRegions.map((region) => ({
-        region,
-        data: dummyProducts.map((product) => {
-          const isCrit = Math.random() > 0.85;
-          const isMod = Math.random() > 0.6;
-          const qty = isCrit
-            ? 0
-            : isMod
-              ? Math.floor(Math.random() * 10) + 1
-              : Math.floor(Math.random() * 100) + 20;
-
-          let intensity = 0;
-          if (qty === 0) intensity = 95 + Math.floor(Math.random() * 5);
-          else if (qty < 15) intensity = 60 + Math.floor(Math.random() * 15);
-          else if (qty < 40) intensity = 30 + Math.floor(Math.random() * 10);
-          else intensity = Math.floor(Math.random() * 20);
-          const mockPriceValue =
-            product.length * 125 + product.charCodeAt(0) * 15;
-          return {
-            product,
-            intensity,
-            qty,
-            price: "$" + mockPriceValue.toLocaleString(),
-          };
-        }),
-      }));
-      setProductsList(dummyProducts);
-      setMatrix(dummyMatrix);
+      // No inventory data at all — show empty state
+      setProductsList([]);
+      setMatrix([]);
     }
     setLoading(false);
   }
@@ -178,102 +132,134 @@ export default function HeatmapPage() {
       </div>
 
       {/* The overflow-x-auto is the magic class that prevents mobile squishing */}
-      <div className="bg-[#111827] p-4 md:p-8 lg:p-10 rounded-3xl border border-[#1F2937] shadow-sm w-full">
-        <div className="overflow-x-auto custom-scrollbar w-full pt-6 md:pt-10 pb-6 md:pb-10 relative z-20">
-          <div className="min-w-max md:min-w-[800px] px-2 md:px-4">
-            <div className="flex mb-4">
-              <div className="w-24 md:w-32 shrink-0"></div>
-              {productsList.map((p) => (
-                <div
-                  key={p}
-                  className="flex-1 text-center text-[10px] md:text-xs font-semibold text-[#9CA3AF] px-1 md:px-2 min-w-[60px] md:min-w-0"
-                >
-                  <div className="truncate w-full">{p}</div>
-                </div>
-              ))}
-            </div>
-
-            <div className="space-y-3">
-              {matrix.map((row, rowIndex) => (
-                <div
-                  key={row.region}
-                  className="flex items-center gap-4 relative group/row border-transparent"
-                >
-                  <div className="w-24 md:w-32 shrink-0 text-xs md:text-sm font-medium text-[#D1D5DB] text-right pr-2 md:pr-4 border-r border-[#1F2937] truncate">
-                    {row.region}
+      {matrix.length === 0 ? (
+        <div className="bg-[#111827] p-8 md:p-12 lg:p-16 rounded-3xl border border-[#1F2937] shadow-sm w-full">
+          <div className="flex flex-col items-center justify-center gap-4 opacity-50 py-12">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="48"
+              height="48"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="text-[#374151]"
+            >
+              <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+              <path d="M3 9h18" />
+              <path d="M3 15h18" />
+              <path d="M9 3v18" />
+              <path d="M15 3v18" />
+            </svg>
+            <p className="text-sm font-medium text-[#9CA3AF]">
+              No inventory data to visualize
+            </p>
+            <p className="text-xs text-[#6B7280] max-w-sm text-center">
+              Add products and warehouses from the Inventory page to see stock
+              distribution across your network
+            </p>
+          </div>
+        </div>
+      ) : (
+        <div className="bg-[#111827] p-4 md:p-8 lg:p-10 rounded-3xl border border-[#1F2937] shadow-sm w-full">
+          <div className="overflow-x-auto custom-scrollbar w-full pt-6 md:pt-10 pb-6 md:pb-10 relative z-20">
+            <div className="min-w-max md:min-w-[800px] px-2 md:px-4">
+              <div className="flex mb-4">
+                <div className="w-24 md:w-32 shrink-0"></div>
+                {productsList.map((p) => (
+                  <div
+                    key={p}
+                    className="flex-1 text-center text-[10px] md:text-xs font-semibold text-[#9CA3AF] px-1 md:px-2 min-w-[60px] md:min-w-0"
+                  >
+                    <div className="truncate w-full">{p}</div>
                   </div>
-                  <div className="flex flex-1 gap-2">
-                    {row.data.map((cell, i) => {
-                      if (cell.qty === "N/A") {
+                ))}
+              </div>
+
+              <div className="space-y-3">
+                {matrix.map((row, rowIndex) => (
+                  <div
+                    key={row.region}
+                    className="flex items-center gap-4 relative group/row border-transparent"
+                  >
+                    <div className="w-24 md:w-32 shrink-0 text-xs md:text-sm font-medium text-[#D1D5DB] text-right pr-2 md:pr-4 border-r border-[#1F2937] truncate">
+                      {row.region}
+                    </div>
+                    <div className="flex flex-1 gap-2">
+                      {row.data.map((cell, i) => {
+                        if (cell.qty === "N/A") {
+                          return (
+                            <div
+                              key={i}
+                              className="flex-1 min-w-[60px] md:min-w-0 h-10 md:h-14 rounded-xl bg-[#111827] border border-[#1F2937] opacity-30"
+                            ></div>
+                          );
+                        }
+
+                        const isHigh = cell.intensity > 75;
+                        const isMed =
+                          cell.intensity > 40 && cell.intensity <= 75;
+
+                        let bgColor = "bg-[#1F2937] border-white/5";
+                        if (isMed) bgColor = "bg-[#3B82F6] border-[#2563EB]";
+                        if (isHigh) bgColor = "bg-[#EF4444] border-[#DC2626]";
+
                         return (
                           <div
                             key={i}
-                            className="flex-1 min-w-[60px] md:min-w-0 h-10 md:h-14 rounded-xl bg-[#111827] border border-[#1F2937] opacity-30"
-                          ></div>
-                        );
-                      }
-
-                      const isHigh = cell.intensity > 75;
-                      const isMed = cell.intensity > 40 && cell.intensity <= 75;
-
-                      let bgColor = "bg-[#1F2937] border-white/5";
-                      if (isMed)
-                        bgColor = "bg-[#3B82F6] border-[#2563EB]";
-                      if (isHigh)
-                        bgColor = "bg-[#EF4444] border-[#DC2626]";
-
-                      return (
-                        <div
-                          key={i}
-                          className={`flex-1 min-w-[60px] md:min-w-0 h-10 md:h-14 rounded-xl border flex items-center justify-center transition-transform duration-300 hover:scale-105 cursor-crosshair group ${bgColor}`}
-                          onMouseEnter={(e) => {
-                            const rect = e.currentTarget.getBoundingClientRect();
-                            setHoveredCell({
-                              cell,
-                              region: row.region,
-                              x: rect.left + rect.width / 2,
-                              y: rect.top,
-                              isHigh
-                            });
-                          }}
-                          onMouseLeave={() => setHoveredCell(null)}
-                        >
-                          <span
-                            className={`text-xs font-semibold ${isHigh ? "text-white" : "text-[#9CA3AF] group-hover:text-[#F9FAFB]"}`}
+                            className={`flex-1 min-w-[60px] md:min-w-0 h-10 md:h-14 rounded-xl border flex items-center justify-center transition-transform duration-300 hover:scale-105 cursor-crosshair group ${bgColor}`}
+                            onMouseEnter={(e) => {
+                              const rect =
+                                e.currentTarget.getBoundingClientRect();
+                              setHoveredCell({
+                                cell,
+                                region: row.region,
+                                x: rect.left + rect.width / 2,
+                                y: rect.top,
+                                isHigh,
+                              });
+                            }}
+                            onMouseLeave={() => setHoveredCell(null)}
                           >
-                            {cell.intensity}
-                          </span>
-                        </div>
-                      );
-                    })}
+                            <span
+                              className={`text-xs font-semibold ${isHigh ? "text-white" : "text-[#9CA3AF] group-hover:text-[#F9FAFB]"}`}
+                            >
+                              {cell.intensity}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center md:justify-end gap-4 md:gap-6 mt-8 pt-6 border-t border-[#1F2937] relative z-10">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-sm bg-[#1F2937] border border-white/5"></div>
+              <span className="text-xs font-medium text-[#9CA3AF]">
+                Healthy Reserves
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-sm bg-[#3B82F6] border border-[#2563EB]"></div>
+              <span className="text-xs font-medium text-[#9CA3AF]">
+                Reorder Threshold
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-sm bg-[#EF4444] border border-[#DC2626]"></div>
+              <span className="text-xs font-medium text-[#9CA3AF]">
+                Critical Depletion
+              </span>
             </div>
           </div>
         </div>
-
-        <div className="flex flex-wrap items-center justify-center md:justify-end gap-4 md:gap-6 mt-8 pt-6 border-t border-[#1F2937] relative z-10">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-sm bg-[#1F2937] border border-white/5"></div>
-            <span className="text-xs font-medium text-[#9CA3AF]">
-              Healthy Reserves
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-sm bg-[#3B82F6] border border-[#2563EB]"></div>
-            <span className="text-xs font-medium text-[#9CA3AF]">
-              Reorder Threshold
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-sm bg-[#EF4444] border border-[#DC2626]"></div>
-            <span className="text-xs font-medium text-[#9CA3AF]">
-              Critical Depletion
-            </span>
-          </div>
-        </div>
-      </div>
+      )}
 
       {/* 
         This is a fixed, absolute portal tooltip that renders exactly where the mouse hovered, 
@@ -284,7 +270,7 @@ export default function HeatmapPage() {
           className="fixed z-[9999] pointer-events-none -translate-x-1/2 -translate-y-full pb-3"
           style={{
             left: hoveredCell.x,
-            top: hoveredCell.y
+            top: hoveredCell.y,
           }}
         >
           <div className="bg-[#111827] border border-[#1F2937] text-white p-2 rounded-lg min-w-[120px] shadow-2xl flex flex-col gap-0 animate-fade-in-up">
@@ -304,9 +290,7 @@ export default function HeatmapPage() {
               </span>
             </div>
             <div className="flex justify-between items-center text-[10px] gap-4">
-              <span className="text-[#9CA3AF]">
-                Value:
-              </span>
+              <span className="text-[#9CA3AF]">Value:</span>
               <span className="font-semibold text-[#10B981]">
                 {hoveredCell.cell.price}
               </span>
