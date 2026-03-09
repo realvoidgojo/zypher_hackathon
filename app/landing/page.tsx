@@ -310,9 +310,9 @@ export default function LandingPage() {
           <p className="text-[#D1D5DB] whitespace-nowrap text-[0.6rem] sm:text-sm">
             git clone https://github.com/realvoidgojo/zypher_hackathon.git
           </p>
-          <p className="text-[#D1D5DB] whitespace-nowrap">cd zypher_hackathon</p>
-          <p className="text-[#D1D5DB] whitespace-nowrap">npm install</p>
-          <p className="text-[#D1D5DB] whitespace-nowrap">npm run dev</p>
+          <p className="text-[#D1D5DB] whitespace-nowrap text-[0.6rem] sm:text-sm">cd zypher_hackathon</p>
+          <p className="text-[#D1D5DB] whitespace-nowrap text-[0.6rem] sm:text-sm">npm install</p>
+          <p className="text-[#D1D5DB] whitespace-nowrap text-[0.6rem] sm:text-sm">npm run dev</p>
         </div>
 
         <div className="mt-6">
