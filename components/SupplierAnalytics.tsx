@@ -109,7 +109,7 @@ export default function SupplierAnalytics() {
                   {/* Slightly widened YAxis to fit all partner names comfortably */}
                   <YAxis dataKey="name" type="category" width={130} tick={{ fill: '#9CA3AF', fontSize: 11, fontWeight: 500 }} axisLine={false} tickLine={false} />
 
-                  <Tooltip cursor={{ fill: '#1F2937' }} contentStyle={{ backgroundColor: '#111827', borderRadius: '8px', border: '1px solid #1F2937', color: '#F9FAFB' }} />
+                  <Tooltip cursor={{ fill: '#1F2937' }} contentStyle={{ backgroundColor: '#111827', borderRadius: '8px', border: '1px solid #1F2937', color: '#F9FAFB' }} itemStyle={{ color: '#9CA3AF' }} labelStyle={{ color: '#F9FAFB' }} />
 
                   <Bar dataKey="fairRating" radius={[0, 4, 4, 0]} barSize={12}>
                     <LabelList dataKey="fairRating" position="right" fill="#9CA3AF" fontSize={11} offset={12} formatter={(v: any) => `${v}%`} />
