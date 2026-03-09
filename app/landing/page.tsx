@@ -307,7 +307,7 @@ export default function LandingPage() {
 
         <div className="mt-6 bg-[#111827] border border-[#1F2937] rounded-lg p-4 max-w-lg font-mono text-sm overflow-x-auto">
           <p className="text-[#6B7280] mb-1 whitespace-nowrap"># clone and get started</p>
-          <p className="text-[#D1D5DB] whitespace-nowrap">
+          <p className="text-[#D1D5DB] whitespace-nowrap text-[0.6rem] sm:text-sm">
             git clone https://github.com/realvoidgojo/zypher_hackathon.git
           </p>
           <p className="text-[#D1D5DB] whitespace-nowrap">cd zypher_hackathon</p>
