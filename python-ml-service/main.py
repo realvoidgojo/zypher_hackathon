@@ -40,7 +40,7 @@ class ChatInput(BaseModel):
     messages: list[ChatMessage]
 
 @app.post("/predict-demand")
-async def predict_demand(data: ForecastInput):
+def predict_demand(data: ForecastInput):
     try:
         if not data.history or len(data.history) < 3:
             baseline = []
@@ -83,32 +83,37 @@ async def check_weather_risk(data: WeatherInput):
     print(API_KEY)
     print(data)
     try:
-        res = requests.get(url).json()
-        weather_id = res['weather'][0]['id']
-        condition = res['weather'][0]['main']
+        # Use a timeout so requests don't hang forever
+        res = requests.get(url, timeout=5).json()
+        weather_id = res.get('weather', [{}])[0].get('id', 800) # safe fallback
+        condition = res.get('weather', [{}])[0].get('main', 'Clear')
         is_severe = (200 <= weather_id <= 299) or (500 <= weather_id <= 599) or condition.lower() in ["cyclone", "storm"]
         return {
             "condition": condition,
             "alert": f"⚠️ SEVERE WEATHER: {condition.upper()}" if is_severe else f"✅ Clear ({condition})",
             "risk_multiplier": 3.5 if is_severe else 1.0
         }
-    except:
+    except Exception as e:
+        # FIX: Catch actual Exception, not a bare except.
+        print(f"Weather API Error: {e}")
         return {"condition": "Unknown", "alert": "✅ Weather Clear", "risk_multiplier": 1.0}
 @app.post("/chat")
-async def chat_endpoint(data: ChatInput):
-    # wrapper sending conversation to OpenAI (requires OPENAI_API_KEY env var)
+def chat_endpoint(data: ChatInput):
+    # FIX: Updated to modern OpenAI v1.0.0+ syntax and removed `async def` since it's a sync network call.
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
         return {"reply": "(no API key provided)"}
     try:
-        import openai
-        openai.api_key = api_key
+        from openai import OpenAI
+        client = OpenAI(api_key=api_key)
+        
         messages = [{"role": m.role, "content": m.content} for m in data.messages]
-        resp = openai.ChatCompletion.create(
+        
+        resp = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=messages
         )
-        text = resp.choices[0].message.get("content", "")
+        text = resp.choices[0].message.content
         return {"reply": text}
     except Exception as e:
         print("chat error", e)
