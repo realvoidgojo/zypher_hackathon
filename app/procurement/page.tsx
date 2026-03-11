@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/services/supabaseClient";
-import { Loader2 } from "lucide-react";
+import { Loader2, Package } from "lucide-react";
 
 const IconCheck = (
   <svg
@@ -231,7 +231,11 @@ export default function ProcurementPage() {
                       </div>
                       <div>
                         <p className="text-xs text-[#9CA3AF]">Quantity &amp; Cost</p>
-                        <p className="text-sm font-semibold text-[#8B5CF6]">{req.qty} un <span className="text-[#9CA3AF] font-normal mx-0.5">•</span> {req.cost}</p>
+                        <p className="text-sm font-semibold flex items-center gap-1 text-[#8B5CF6]">
+                          {req.qty} <Package className="w-3.5 h-3.5" />
+                          <span className="text-[#9CA3AF] font-normal mx-0.5">•</span>
+                          {req.cost}
+                        </p>
                       </div>
                     </div>
 

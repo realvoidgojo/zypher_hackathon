@@ -82,6 +82,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
+        suppressHydrationWarning
         className={`${inter.className} text-[#F9FAFB] selection:bg-[#3B82F6]/30 selection:text-[#F9FAFB] antialiased bg-[#0B0F14]`}
       >
         {!mounted ? (
