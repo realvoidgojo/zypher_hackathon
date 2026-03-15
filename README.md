@@ -8,7 +8,7 @@
 ![Render](https://img.shields.io/badge/Deploy-Render-46E3B7)
 ![Vercel](https://img.shields.io/badge/Deploy-Vercel-black?logo=vercel)
 
-> A supply chain platform focused on getting things done, not showing off.
+> A supply chain platform focused on getting things done, not showing off. gradually
 
 <p>
   <img src="https://img.shields.io/badge/Setup-Fast-0ea5e9" alt="Fast setup" />
