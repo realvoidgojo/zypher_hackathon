@@ -105,6 +105,10 @@ NEXT_PUBLIC_ML_SERVICE_URL=http://127.0.0.1:8000
 # Required for app/api/chat/route.ts
 GEMINI_API_KEY=your_google_gemini_api_key
 
+# Required for Cloudflare Turnstile (login/signup)
+NEXT_PUBLIC_TURNSTILE_SITE_KEY=your_cloudflare_turnstile_site_key
+TURNSTILE_SECRET_KEY=your_cloudflare_turnstile_secret_key
+
 # Optional: weather overlays in shipment UI
 NEXT_PUBLIC_OPENWEATHER_API_KEY=your_openweathermap_api_key
 ```
@@ -172,6 +176,8 @@ OPENAI_API_KEY=your_openai_api_key
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY`   | Yes      | Supabase anon key                               |
 | `NEXT_PUBLIC_ML_SERVICE_URL`      | No       | ML base URL (fallback: `http://127.0.0.1:8000`) |
 | `GEMINI_API_KEY`                  | Yes      | Used by `app/api/chat/route.ts`                 |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY`  | Yes      | Cloudflare Turnstile widget site key            |
+| `TURNSTILE_SECRET_KEY`            | Yes      | Used by `app/api/turnstile/verify/route.ts`     |
 | `NEXT_PUBLIC_OPENWEATHER_API_KEY` | No       | Weather in shipment UI                          |
 
 ### ML service (`python-ml-service/.env`)
